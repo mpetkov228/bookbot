@@ -1,13 +1,16 @@
+import sys
+from stats import word_count
+
 def main():
-    with open("books/frankenstein.txt") as f:
+    if len(sys.argv) < 2:
+            print("Usage: python3 main.py <path_to_book>")
+            sys.exit(1)
+    book_path = sys.argv[1]
+
+    with open(book_path) as f:
         file_contents = f.read()
 
-    generate_report(file_contents)
-
-
-def word_count(text):
-    words = text.split()
-    return len(words)
+    generate_report(book_path, file_contents)
 
 
 def char_count(text):
@@ -21,15 +24,15 @@ def char_count(text):
     return char_dict
 
 
-def generate_report(text):
+def generate_report(book_path, text):
     words = word_count(text)
     char_dict = char_count(text)
 
-    print("--- Begin report of books/frankenstein.txt ---")
+    print(f"--- Begin report of {book_path} ---")
     print(f"{words} words found in the document")
     for key in char_dict:
         if key.isalpha():
-            print(f"The '{key}' character was found {char_dict[key]} times")
+            print(f"'{key}: {char_dict[key]}'")
     print("--- End report ---")
 
 
